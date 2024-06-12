@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    
+    environment {
+        // Other environment variables
+        
+        // Get the path to the workspace directory where the job is executed
+        WORKSPACE_PATH = pwd() // This returns the current directory (workspace directory)
+        
+        // Construct the path to your app file relative to the workspace directory
+        APP_FILE_PATH = "${WORKSPACE_PATH}/app.apk" // Assuming your app file is named app.apk
+    }
+
+    stages {
+        // Other stages
+    }
+}
