@@ -33,9 +33,9 @@ public class Baseclass {
 
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			// Device data to run locally
-		    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "ANDROID");
-			capabilities.setCapability(MobileCapabilityType.UDID, "SWIR8LNVQCBEIFJJ");
-		//    capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
+		 //   capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "ANDROID");
+		//	capabilities.setCapability(MobileCapabilityType.UDID, "SWIR8LNVQCBEIFJJ");
+		     capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
 			// Run in iOS
 			capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
 			// capabilities.setCapability(AndroidMobileCapabilityType.RESET_KEYBOARD, true);
@@ -44,8 +44,8 @@ public class Baseclass {
 			capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,
 					"com.asahi.android.wearable.datalayer.MainActivity");
 
-			URL url = new URL("http://0.0.0.0:4723/wd/hub");
-		//	URL url = new URL("http://127.0.1.1:4723/wd/hub");
+		//	URL url = new URL("http://0.0.0.0:4723/wd/hub");
+			URL url = new URL("http://127.0.1.1:4723/wd/hub");
 			driver = new AndroidDriver<MobileElement>(url, capabilities);
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
