@@ -10,6 +10,7 @@ pipeline {
             steps {
                 // Steps for setup stage
                 script {
+                    echo "Setting up environment..."
                     // Example: Setup environment variables, tools, etc.
                 }
             }
@@ -19,6 +20,7 @@ pipeline {
             steps {
                 // Steps for build stage
                 script {
+                    echo "Building application..."
                     // Example: Build your application
                 }
             }
@@ -28,6 +30,7 @@ pipeline {
             steps {
                 // Steps for test stage
                 script {
+                    echo "Running tests..."
                     // Example: Run tests on your application
                 }
             }
@@ -37,6 +40,7 @@ pipeline {
             steps {
                 // Steps for deploy stage
                 script {
+                    echo "Deploying application..."
                     // Example: Deploy your application
                 }
             }
