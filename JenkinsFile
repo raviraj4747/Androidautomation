@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        // Define your environment variables here
+        MY_VARIABLE = 'some_value'
     }
 
     stages {
