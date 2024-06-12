@@ -71,7 +71,7 @@ node(node) {
           // Execute the Maven command
           sh "mvn clean package -DskipTests=true"
           sh "git add target/zip-with-dependencies.zip"
-          sh "git commit -m "Add zip-with-dependencies.zip""
+          sh 'git commit -m "Add zip-with-dependencies.zip"'
           sh "git push"
 
             }
