@@ -1,49 +1,75 @@
-pipeline {
-    agent any
-    
-    environment {
-        MY_VARIABLE = 'some_value'
+import hudson.tasks.test.AbstractTestResultAction
+import hudson.model.Actionable
+import hudson.tasks.junit.CaseResult
+import hudson.util.DescribableList
+import hudson.slaves.EnvironmentVariablesNodeProperty
+import jenkins.model.Jenkins
+
+def now = new Date()
+def TIME_STAMP = now.format("yyMMdd.HHmmssSSS", TimeZone.getTimeZone('UTC'))
+def test_stage = '1'
+def WK = ""
+
+properties(
+    [
+        parameters([
+          string(name: 'node', defaultValue: 'mymobileautomation', description: 'Jenkins Node Name', ),
+        ]),
+        buildDiscarder(logRotator(daysToKeepStr: '100', numToKeepStr: '100'))
+    ]
+)
+
+node(node) {
+
+
+    //Clean up Build machine Workspace
+    stage('init') {   
+     //Clean up WORKSPACE
+     step([$class: 'WsCleanup'])
     }
 
-    stages {
-        stage('Setup') {
-            steps {
-                // Steps for setup stage
-                script {
-                    echo "Setting up environment..."
-                    // Example: Setup environment variables, tools, etc.
-                }
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                // Steps for build stage
-                script {
-                    echo "Building application..."
-                    // Example: Build your application
-                }
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                // Steps for test stage
-                script {
-                    echo "Running tests..."
-                    // Example: Run tests on your application
-                }
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                // Steps for deploy stage
-                script {
-                    echo "Deploying application..."
-                    // Example: Deploy your application
-                }
-            }
-        }
+    //Get Source Code
+    stage('Checkout') {
+
+       println "Current branch ${env.BRANCH_NAME}"
+       println "Change branch ${env.CHANGE_BRANCH}"
+       println "Target branch ${env.CHANGE_TARGET}"
+       branch = env.BRANCH_NAME
+
+       if(env.CHANGE_BRANCH) {
+         branch = env.CHANGE_BRANCH
+       }
+
+       checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: branch]],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: []
+                    .plus(env.CHANGE_TARGET == null ? [] : [
+                        [$class: 'PreBuildMerge', options: [fastForwardMode: 'NO_FF', mergeRemote: 'origin', mergeTarget: env.CHANGE_TARGET]],
+                    ]),
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[name: 'origin', url: 'https://github.com/raviraj4747/Androidautomation.git',credentialsId: 'f418d151-1d20-44d9-8aec-8eeb8f306644']]
+       ]) 
+
     }
+   
+  try {
+ 
+    stage('prepare test') {
+
+       def branch = env.BRANCH_NAME
+       sh "pwd"
+
+       //Mount volume
+       def workspace = env.WORKSPACE
+       WK = "${branch}" + "${TIME_STAMP}"
+       println "Current Work Folder"
+       println "${WK}"
+
+    }
+  } catch(e) {
+      echo "Error occurred in prepare test stage: ${e.message}"
+  }
+
 }
