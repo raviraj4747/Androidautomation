@@ -14,14 +14,6 @@ properties(
     [
         parameters([
           string(name: 'node', defaultValue: 'mymobileautomation', description: 'Jenkins Node Name', ),
-          string(name: 'devicePoolArn', defaultValue: 'arn:aws:devicefarm:us-west-2:891922163093:project:bbcb9f8a-c27e-4b0e-bd6c-fe23dd14ff9c:devicepool:Android',),
-          string(name: 'projectArn', defaultValue: 'arn:aws:devicefarm:us-west-2:891922163093:project:bbcb9f8a-c27e-4b0e-bd6c-fe23dd14ff9c',),
-    }
-
-
-
-
-
         ]),
         buildDiscarder(logRotator(daysToKeepStr: '100', numToKeepStr: '100'))
     ]
@@ -74,6 +66,13 @@ node(node) {
        WK = "${branch}" + "${TIME_STAMP}"
        println "Current Work Folder"
        println "${WK}"
+       
+       dir("${pwd()}/iOS/appiumhhaproject") {
+          // Execute the Maven command
+          sh "mvn clean package -DskipTests=true"
+            }
+       
+       
 
     }
   } catch(e) {
