@@ -2,16 +2,44 @@ pipeline {
     agent any
     
     environment {
-        // Other environment variables
-        
-        // Get the path to the workspace directory where the job is executed
-        WORKSPACE_PATH = pwd() // This returns the current directory (workspace directory)
-        
-        // Construct the path to your app file relative to the workspace directory
-        APP_FILE_PATH = "${WORKSPACE_PATH}/app.apk" // Assuming your app file is named app.apk
+        // Define your environment variables here
     }
 
     stages {
-        // Other stages
+        stage('Setup') {
+            steps {
+                // Steps for setup stage
+                script {
+                    // Example: Setup environment variables, tools, etc.
+                }
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Steps for build stage
+                script {
+                    // Example: Build your application
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                // Steps for test stage
+                script {
+                    // Example: Run tests on your application
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Steps for deploy stage
+                script {
+                    // Example: Deploy your application
+                }
+            }
+        }
     }
 }
