@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite errors="0" failures="0" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="2" time="52.786">
+    <testcase classname="Basic Test scenarios" name="Set and Allow all permission" time="21.582">
+        <system-out><![CDATA[Then veirfy permission is allow.............................................passed
+]]></system-out>
+    </testcase>
+    <testcase classname="Basic Test scenarios" name="Verify NUX and Get started button" time="30.897">
+        <system-out><![CDATA[Then Verify NUX flow and Get started button.................................passed
+When Click on Get Started button............................................passed
+]]></system-out>
+    </testcase>
+</testsuite>
