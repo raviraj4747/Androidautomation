@@ -1,0 +1,129 @@
+import hudson.tasks.test.AbstractTestResultAction
+import hudson.model.Actionable
+import hudson.tasks.junit.CaseResult
+import hudson.util.DescribableList
+import hudson.slaves.EnvironmentVariablesNodeProperty
+import jenkins.model.Jenkins
+
+def now = new Date()
+def TIME_STAMP = now.format("yyMMdd.HHmmssSSS", TimeZone.getTimeZone('UTC'))
+def test_stage = '1'
+def WK = ""
+
+properties([
+    parameters([
+        string(name: 'node', defaultValue: 'mymobileautomation', description: 'Jenkins Node Name')
+    ]),
+    buildDiscarder(logRotator(daysToKeepStr: '100', numToKeepStr: '100'))
+])
+
+node(node) {
+    environment {
+        DEVICE_FARM_PROJECT_ARN = 'arn:aws:devicefarm:us-west-2:891922163093:project:bbcb9f8a-c27e-4b0e-bd6c-fe23dd14ff9c'
+        DEVICE_FARM_DEVICE_POOL_ARN = 'arn:aws:devicefarm:us-west-2:891922163093:devicepool:Android'
+    }
+
+    // Clean up Build machine Workspace
+    stage('init') {   
+        // Clean up WORKSPACE
+        step([$class: 'WsCleanup'])
+    }
+
+    // Get Source Code
+    stage('Checkout') {
+        println "Current branch ${env.BRANCH_NAME}"
+        println "Change branch ${env.CHANGE_BRANCH}"
+        println "Target branch ${env.CHANGE_TARGET}"
+        branch = env.BRANCH_NAME
+
+        if(env.CHANGE_BRANCH) {
+            branch = env.CHANGE_BRANCH
+        }
+
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: branch]],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: []
+                .plus(env.CHANGE_TARGET == null ? [] : [
+                    [$class: 'PreBuildMerge', options: [fastForwardMode: 'NO_FF', mergeRemote: 'origin', mergeTarget: env.CHANGE_TARGET]],
+                ]),
+            submoduleCfg: [],
+            userRemoteConfigs: [[name: 'origin', url: 'https://github.com/raviraj4747/Androidautomation.git', credentialsId: 'f418d151-1d20-44d9-8aec-8eeb8f306644']]
+        ])
+    }
+   
+    try {
+        stage('prepare test') {
+            def branch = env.BRANCH_NAME
+            sh "pwd"
+
+            // Mount volume
+            def workspace = env.WORKSPACE
+            WK = "${branch}" + "${TIME_STAMP}"
+            println "Current Work Folder"
+            println "${WK}"
+       
+            dir("${pwd()}/iOS/appiumhhaproject") {
+                // Execute the Maven command
+                  println "${WK}"
+    //            sh "mvn clean package -DskipTests=true"
+    //            sh "git add target/zip-with-dependencies.zip"
+    //            sh 'git commit -m "Add zip-with-dependencies.zip"'
+    //            sh "git push origin HEAD:main"
+            }
+        }
+
+   //     stage('Fetch File from EC2') {
+   //         sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
+   //             sh """
+   //                 scp -o StrictHostKeyChecking=no ec2-user@${env.EC2_HOST}:/path/to/required/file /local/path/required-file
+   //             """
+    //        }
+   //     }
+
+        stage('Upload to Device Farm') {
+            script {
+                    def appFile = "${pwd()}/iOS/appiumhhaproject/target/myapp.apk"
+                    def zipFile = "${pwd()}/iOS/appiumhhaproject/target/zip-with-dependencies.zip"
+                    
+                    
+                // Upload app to Device Farm
+                    def appUploadArn = sh(script: """
+                    aws devicefarm create-upload --project-arn ${env.DEVICE_FARM_PROJECT_ARN} \
+                    --name "app.apk" --type "ANDROID_APP" --query "upload.arn" --output text
+                    """, returnStdout: true).trim()
+                
+                    sh """
+                    aws s3 cp ${appFile} s3://${appUploadArn}
+                    aws devicefarm get-upload --arn ${appUploadArn} --query "upload.status" --output text
+                    """
+                
+                    // Upload tests zip to Device Farm
+                    def zipUploadArn = sh(script: """
+                    aws devicefarm create-upload --project-arn ${env.DEVICE_FARM_PROJECT_ARN} \
+                    --name "tests.zip" --type "APPIUM_JAVA_TESTNG_TEST_PACKAGE" --query "upload.arn" --output text
+                    """, returnStdout: true).trim()
+                
+                    sh """
+                    aws s3 cp ${zipFile} s3://${zipUploadArn}
+                    aws devicefarm get-upload --arn ${zipUploadArn} --query "upload.status" --output text
+                    """
+                
+                    // Schedule run
+                    def runArn = sh(script: """
+                    aws devicefarm schedule-run --project-arn ${env.DEVICE_FARM_PROJECT_ARN} \
+                    --app-arn ${appUploadArn} --device-pool-arn ${env.DEVICE_FARM_DEVICE_POOL_ARN} \
+                    --name "Test Run" --test '{"type": "APPIUM_JAVA_TESTNG_TEST_PACKAGE", "testPackageArn": "${zipUploadArn}"}' \
+                    --query "run.arn" --output text
+                    """, returnStdout: true).trim()
+                
+                    echo "Run ARN: ${runArn}"
+            }
+        }
+    } catch(e) {
+        echo "Error occurred: ${e.message}"
+    } finally {
+        cleanWs()
+    }
+}
