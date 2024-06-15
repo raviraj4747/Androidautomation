@@ -12,7 +12,7 @@ def WK = ""
 
 properties([
     parameters([
-        string(name: 'node', defaultValue: 'mymobileautomation', description: 'Jenkins Node Name')
+        string(name: 'node', defaultValue: 'build', description: 'Jenkins Node Name')
     ]),
     buildDiscarder(logRotator(daysToKeepStr: '100', numToKeepStr: '100'))
 ])
