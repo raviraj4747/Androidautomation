@@ -78,8 +78,8 @@ public class StepDefinitions extends Baseclass {
             action.press(PointOption.point(startX, centerY))
                   .waitAction()
                   .moveTo(PointOption.point(endX, centerY))
-                  .release()
-                  .perform();
+          //        .release()
+          //        .perform();
             Thread.sleep(10000);
             
 
