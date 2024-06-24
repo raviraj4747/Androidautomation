@@ -79,7 +79,7 @@ public class StepDefinitions extends Baseclass {
                   .waitAction()
                   .moveTo(PointOption.point(endX, centerY))
                   .release()
-                  .perform1();
+                  .perform();
             Thread.sleep(10000);
             
 
@@ -92,7 +92,7 @@ public class StepDefinitions extends Baseclass {
 	@When("Click on Get Started button")
     public void Click_on_Get_Started_button() throws InterruptedException {
         try {
-            driver.findElement(By.xpath("//android.widget.TextView[@text=\"Get Started\"]")).click();
+            driver.findElement(By.xpath("//android.widget.TextView[@text=\"Get Started1\"]")).click();
         } catch (org.openqa.selenium.NoSuchElementException e) {
             System.out.println("Button is not clickable");
         } 
