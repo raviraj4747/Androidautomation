@@ -53,7 +53,7 @@ public class StepDefinitions extends Baseclass {
 
 	@Then("veirfy permission is allow")
     public void veirfy_permission_is_allow() throws InterruptedException {
-            driver.findElement(By.xpath("//android.widget.Button[@resource-id=\"android:id/button1\"]")).click();
+            driver.findElement(By.xpath("//android.widget.Button[@resource-id=\"android:id/test\"]")).click();
             Thread.sleep(5000);
             // Corrected XPath
             driver.findElement(By.xpath("//android.widget.Switch[@resource-id=\"android:id/switch_widget\"]")).click();
