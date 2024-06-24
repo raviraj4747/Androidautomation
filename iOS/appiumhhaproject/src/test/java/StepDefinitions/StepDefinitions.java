@@ -92,7 +92,7 @@ public class StepDefinitions extends Baseclass {
 	@When("Click on Get Started button")
     public void Click_on_Get_Started_button() throws InterruptedException {
         try {
-            driver.findElement(By.xpath("//android.widget.TextView[@text=\"Get Started1\"]")).click();
+            driver.findElement(By.xpath("//android.widget.TextView[@text=\"dfgdg\"]")).click();
         } catch (org.openqa.selenium.NoSuchElementException e) {
             System.out.println("Button is not clickable");
         } 
