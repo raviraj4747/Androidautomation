@@ -116,7 +116,8 @@ node(node) {
 
                     // Wait for the run to complete and check status
                     def runStatus = waitForDeviceFarmRunCompletion(runArn)
-                    if (runStatus != 'COMPLETED') {
+                    echo "Current Run Status me: ${runStatus}"
+                    if (runStatus != 'PASSED') {
                         error "Device Farm run failed."
                     }
                 }
@@ -126,19 +127,6 @@ node(node) {
         stage('Upload to Device Farm') {
             script {
                 echo "Run ARN: ${runArn}"
-            }
-        }
-
-        // Polling stage to wait for the test run to complete
-        stage('Poll Test Run Status') {
-            timeout(time: 30, unit: 'MINUTES') {
-                waitUntil {
-                    def status = sh(script: """
-                        aws devicefarm get-run --arn ${runArn} --query "run.status" --output text
-                        """, returnStdout: true).trim()
-                    echo "Current Run Status: ${status}"
-                    return status == 'COMPLETED'
-                }
             }
         }
 
@@ -194,15 +182,26 @@ node(node) {
 
 // Function to wait for Device Farm run completion
 def waitForDeviceFarmRunCompletion(runArn) {
-    timeout(time: 30, unit: 'MINUTES') {
+    timeout(time: 60, unit: 'MINUTES') { // Adjust timeout as per your needs
         def status = ''
+        def terminalStatuses = ['COMPLETED', 'ERRORED', 'STOPPED', 'FAILED','PASSED']
+        
+        // Function to check if status is terminal
+        def isTerminalStatus = { stat ->
+            terminalStatuses.contains(stat)
+        }
+        
         waitUntil {
             status = sh(script: """
-                aws devicefarm get-run --arn ${runArn} --query "run.status" --output text
-                """, returnStdout: true).trim()
+                aws devicefarm get-run --arn ${runArn} --query "run.result" --output text
+            """, returnStdout: true).trim()
+            
             echo "Current Run Status: ${status}"
-            return status in ['COMPLETED', 'ERRORED', 'STOPPED']
+            return isTerminalStatus(status)
         }
+        
+        // After waitUntil completes, return the final status
         return status
     }
 }
+
