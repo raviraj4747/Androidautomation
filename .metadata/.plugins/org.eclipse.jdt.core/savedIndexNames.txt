@@ -1,0 +1,3 @@
+INDEX VERSION 1.134+/Users/asahi-gh22010/Documents/androidautomationdevicefarm/Androidautomation/.metadata/.plugins/org.eclipse.jdt.core
+4096049350.index
+2662980854.index

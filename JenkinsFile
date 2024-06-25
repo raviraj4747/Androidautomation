@@ -10,6 +10,7 @@ def TIME_STAMP = now.format("yyMMdd.HHmmssSSS", TimeZone.getTimeZone('UTC'))
 def test_stage = '1'
 def WK = ""
 def runArn = ""
+def buildFailed = false
 
 properties([
     parameters([
@@ -115,10 +116,16 @@ node(node) {
                     echo "Run ARN: ${runArn}"
 
                     // Wait for the run to complete and check status
-                    def runStatus = waitForDeviceFarmRunCompletion(runArn)
-                    echo "Current Run Status me: ${runStatus}"
-                    if (runStatus != 'PASSED') {
-                        error "Device Farm run failed."
+                    try {
+                        def runStatus = waitForDeviceFarmRunCompletion(runArn)
+                        echo "Current Run Status me: ${runStatus}"
+                        if (runStatus != 'PASSED') {
+                            buildFailed = true
+                            echo "Device Farm run failed."
+                        }
+                    } catch (Exception e) {
+                        buildFailed = true
+                        echo "Exception during Device Farm run: ${e.message}"
                     }
                 }
             }
@@ -176,6 +183,9 @@ node(node) {
             echo "Final Run ARN: ${runArn}"
         } else {
             echo "Run ARN was not generated due to an error."
+        }
+        if (buildFailed) {
+            currentBuild.result = 'FAILURE'
         }
     }
 }
