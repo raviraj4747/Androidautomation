@@ -159,7 +159,7 @@ node(node) {
         // Publish test results
         stage('Publish Test Results') {
             def filePath = '/home/ubuntu/jenkins89/workspace/build_main/'
-            def fileName = 'zero'
+            def fileName = 'test-results/Host_Machine_Files/$DEVICEFARM_LOG_DIR'
             def fileFullPath = "${filePath}${fileName}"
 
             // Check if the file 'zero' exists at the specified path
