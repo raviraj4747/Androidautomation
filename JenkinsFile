@@ -163,12 +163,13 @@ node(node) {
             def fileFullPath = "${filePath}${fileName}"
 
             // Check if the file 'zero' exists at the specified path
+            archiveArtifacts artifacts: "${fileName}/**", allowEmptyArchive: true
             def fileExists = fileExists(fileFullPath)
 
             // Check if file exists at specified path
             if (fileExists) {
                 echo "File found at ${fileFullPath}"
-                archiveArtifacts artifacts: fileName, allowEmptyArchive: true
+                archiveArtifacts artifacts: "${fileName}/**", allowEmptyArchive: true
             } else {
                 echo "File not found at ${fileFullPath}"
             }
