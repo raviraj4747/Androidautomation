@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+<testng-results ignored="0" total="3" passed="0" failed="3" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-06-11T17:14:08 JST" name="Default suite" finished-at="2024-06-11T17:15:04 JST" duration-ms="56258">
+  <suite started-at="2024-07-02T15:51:50 JST" name="Default suite" finished-at="2024-07-02T15:55:49 JST" duration-ms="238516">
     <groups>
       <group name="cucumber">
         <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:Runner.TestRunner@359df09a]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
       </group> <!-- cucumber -->
     </groups>
-    <test started-at="2024-06-11T17:14:08 JST" name="Default test" finished-at="2024-06-11T17:15:04 JST" duration-ms="56258">
+    <test started-at="2024-07-02T15:51:50 JST" name="Default test" finished-at="2024-07-02T15:55:49 JST" duration-ms="238516">
       <class name="Runner.TestRunner">
-        <test-method is-config="true" signature="setUpClass()[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-06-11T17:14:08 JST" name="setUpClass" finished-at="2024-06-11T17:14:09 JST" duration-ms="710" status="PASS">
+        <test-method is-config="true" signature="setUpClass()[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-07-02T15:51:50 JST" name="setUpClass" finished-at="2024-07-02T15:51:51 JST" duration-ms="731" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpClass -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-06-11T17:14:09 JST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2024-06-11T17:14:30 JST" duration-ms="21812" status="PASS">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-07-02T15:51:51 JST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2024-07-02T15:53:12 JST" duration-ms="80959" status="FAIL">
           <params>
             <param index="0">
               <value>
-                <![CDATA["Set and Allow all permission"]]>
+                <![CDATA["Set and allow all permission"]]>
               </value>
             </param>
             <param index="1">
@@ -27,10 +27,21 @@
               </value>
             </param>
           </params>
+          <exception class="java.lang.NullPointerException">
+            <message>
+              <![CDATA[Cannot invoke "io.appium.java_client.android.AndroidDriver.findElement(org.openqa.selenium.By)" because "StepDefinitions.StepDefinitions.driver" is null]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.NullPointerException: Cannot invoke "io.appium.java_client.android.AndroidDriver.findElement(org.openqa.selenium.By)" because "StepDefinitions.StepDefinitions.driver" is null
+at StepDefinitions.StepDefinitions.veirfy_permission_is_allow(StepDefinitions.java:57)
+at ✽.veirfy permission is allow(classpath:Features/RC4.feature:5)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-06-11T17:14:30 JST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2024-06-11T17:15:01 JST" duration-ms="30920" status="PASS">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-07-02T15:53:12 JST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2024-07-02T15:54:31 JST" duration-ms="79113" status="FAIL">
           <params>
             <param index="0">
               <value>
@@ -43,10 +54,48 @@
               </value>
             </param>
           </params>
+          <exception class="java.lang.NullPointerException">
+            <message>
+              <![CDATA[Cannot invoke "io.appium.java_client.android.AndroidDriver.findElement(org.openqa.selenium.By)" because "StepDefinitions.StepDefinitions.driver" is null]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.NullPointerException: Cannot invoke "io.appium.java_client.android.AndroidDriver.findElement(org.openqa.selenium.By)" because "StepDefinitions.StepDefinitions.driver" is null
+at StepDefinitions.StepDefinitions.Click_on_Get_Started_button(StepDefinitions.java:90)
+at ✽.Click on Get Started button(classpath:Features/RC4.feature:10)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-06-11T17:15:01 JST" name="tearDownClass" finished-at="2024-06-11T17:15:04 JST" duration-ms="2723" status="PASS">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-07-02T15:54:31 JST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2024-07-02T15:55:46 JST" duration-ms="75089" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Verify Guest Login"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Basic Test scenarios"]]>
+              </value>
+            </param>
+          </params>
+          <exception class="java.lang.NullPointerException">
+            <message>
+              <![CDATA[Cannot invoke "io.appium.java_client.android.AndroidDriver.findElement(org.openqa.selenium.By)" because "StepDefinitions.StepDefinitions.driver" is null]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.NullPointerException: Cannot invoke "io.appium.java_client.android.AndroidDriver.findElement(org.openqa.selenium.By)" because "StepDefinitions.StepDefinitions.driver" is null
+at StepDefinitions.StepDefinitions.Click_on_Guest_Login(StepDefinitions.java:100)
+at ✽.Click on Guest Login(classpath:Features/RC4.feature:14)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.NullPointerException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:Runner.TestRunner@359df09a]" started-at="2024-07-02T15:55:46 JST" name="tearDownClass" finished-at="2024-07-02T15:55:49 JST" duration-ms="2521" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownClass -->

@@ -7,9 +7,6 @@ Feature: Basic Test scenarios
  @Regresion
   　Scenario: Verify NUX and Get started button
     Given Verify NUX flow and Get started button
-    When Click on Get Started button  
- 
- @Regresion
-  　Scenario: Verify Guest Login
+    When Click on Get Started button
     Then Click on Guest Login 
        
