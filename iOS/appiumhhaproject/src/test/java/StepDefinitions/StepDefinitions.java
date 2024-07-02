@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Time;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Properties;
@@ -51,7 +52,7 @@ import io.appium.java_client.TouchAction;
 public class StepDefinitions extends Baseclass {
 
 
-	@Then("veirfy permission is allow")
+	@Given("veirfy permission is allow")
     public void veirfy_permission_is_allow() throws InterruptedException {
             driver.findElement(By.xpath("//android.widget.Button[@resource-id=\"android:id/button1\"]")).click();
             Thread.sleep(5000);
@@ -60,7 +61,7 @@ public class StepDefinitions extends Baseclass {
     }
 	
 	
-	@Then("Verify NUX flow and Get started button")
+	@Given("Verify NUX flow and Get started button")
 	public void Verify_NUX_flow_and_Get_started_button() throws InterruptedException {
 		try {
 			Thread.sleep(4000);
@@ -86,11 +87,23 @@ public class StepDefinitions extends Baseclass {
 	@When("Click on Get Started button")
     public void Click_on_Get_Started_button() throws InterruptedException {
         try {
-            driver.findElement(By.xpath("//android.widget.TextView[@text=\"Get Started\"]")).click();
+            driver.findElement(By.xpath("//android.widget.TextView[@text=\"Get Started\"]")).click();            
         } catch (org.openqa.selenium.NoSuchElementException e) {
             System.out.println("Button is not clickable");
         } 
     }
+	
+	
+	@When("Click on Guest Login")
+    public void Click_on_Guest_Login() throws InterruptedException {
+        try {
+            driver.findElement(By.xpath("//android.widget.TextView[@text=\"Guest Login\"]")).click();
+            Thread.sleep(5000);
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            System.out.println("Button is not clickable");
+        } 
+    }
+	
 	
 
 	@When("user reset app")
